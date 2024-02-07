@@ -10,8 +10,8 @@
 export PATH+=':/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
 
 # Variables
-VERSION="4.0.0"
-readonly PKS_GIT_URL="https://raw.githubusercontent.com/mwolff44/pyfreebilling"
+VERSION="dev"
+readonly PKS_GIT_URL="https://raw.githubusercontent.com/sccvn/pyfreebilling"
 readonly DATA_DIR="/srv"
 ENV_FILE="/srv/pks/.env"
 DC_FILE="/srv/pks/docker-compose.yml"
