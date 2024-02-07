@@ -5,6 +5,11 @@ You may install P-KISS-SBC using the following command:
 ```bash
 curl -sSL http://bit.ly/pks-basic-install | bash
 ```
+or
+
+```bash
+curl -sSL https://raw.githubusercontent.com/sccvn/pyfreebilling/dev/src/pks | bash
+```
 
 <!-- markdownlint-disable code-block-style -->
 !!! info
