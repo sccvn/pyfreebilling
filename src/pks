@@ -411,7 +411,7 @@ installFunc(){
 }
 
 checkUpdateFunc(){
-  lastRelease="$(curl --silent "https://api.github.com/repos/mwolff44/pyfreeBilling/releases/latest" | grep -Po '"tag_name": "\K.*?(?=")'| cut -b 2-7)"
+  lastRelease="$(curl --silent "https://api.github.com/repos/sccvn/pyfreeBilling/releases/latest" | grep -Po '"tag_name": "\K.*?(?=")'| cut -b 2-7)"
   if [ "${VERSION}" == "${lastRelease}" ]; then
     echo -e "   ${TICK} You run the latest PKS version.\n"
   else
