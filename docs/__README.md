@@ -24,7 +24,7 @@ Please make sure you fork the repo and change the clone URL in the example below
     - Preparations (only required once):
 
     ```bash
-    git clone https://github.com/YOUR-USERNAME/docs 
+    git clone https://github.com/YOUR-USERNAME/docs
     cd docs
     pip install --user -r requirements-docs.txt
     ```
@@ -39,10 +39,11 @@ Please make sure you fork the repo and change the clone URL in the example below
     - One-shot run:
 
     ```bash
-    docker run -v `pwd`:/opt/app/ -w /opt/app/ -p 8000:8000 --name pyfreebilling-doc -it nikolaik/python-nodejs:python3.9-nodejs21 \
-      sh -c "mkdir -p /opt/app && git config --global --add safe.directory /opt/app && pip install --upgrade pip && pip install --user -r requirements.txt && \
+    docker run -v `pwd`:/opt/app/ -w /opt/app/ -p 8000:8000 -it nikolaik/python-nodejs:python3.7-nodejs16 \
+      sh -c "pip install --user -r requirements-docs.txt && \
       /root/.local/bin/mkdocs build && \
       npm ci && \
+      npm test && \
       /root/.local/bin/mkdocs serve --dev-addr 0.0.0.0:8000"
     ```
 
