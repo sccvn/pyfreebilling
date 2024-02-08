@@ -28,7 +28,8 @@ kamailio-extra-modules \
 kamailio-json-modules \
 kamailio-utils-modules \
 kamailio-redis-modules \
-kamailio-xml-modules
+kamailio-xml-modules \
+kamailio-mysql-modules
 
 # clean
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
