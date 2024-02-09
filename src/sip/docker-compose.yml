@@ -1,11 +1,14 @@
-version: "3"
+version: "3.8"
 
 services:
   pks-sip:
     container_name: pks-sip
     hostname: sip.pks.local
-    image: mwolff44w/pks-sipproxy:4.0.0beta01
+    image: fgst/pks-sipproxy:4.0.0beta01
     restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       #- ./kamailio.cfg:/etc/kamailio/kamailio.cfg
       # - ./tests/db-test:/etc/kamailio/db:ro
@@ -17,22 +20,23 @@ services:
         max-file: "10"
     environment:
       ENVIRONMENT: ${ENVIRONMENT:-dev}
-      LISTEN_ADVERTISE: ${LISTEN_ADVERTISE}
+      LISTEN_ADVERTISE: ${LISTEN_ADVERTISE:-42.116.255.41}
       KAMAILIO_LOG_LEVEL: ${KAMAILIO_LOG_LEVEL:-info}
       RTPENGINE_URL: ${RTPENGINE_URL:-rtp.pks.local}
       REDIS_URL: ${REDIS_URL:-redis.pks.local}
       ALIAS: ${ALIAS:-sip.pks.local}
       DB: ${DB}
-      DB_URL: ${DB_URL}
-      DB_MYSQL: ${DB_MYSQL}
+      DB_URL: ${DB_URL:-mysql://root:mypass@127.0.0.1/pks}
+      DB_MYSQL: ${DB_MYSQL:-127.0.0.1}
       DB_SQLITE: ${DB_SQLITE}
       DB_PGSQL: ${DB_PGSQL}
-      LOCAL_IP: ${LOCAL_IP}
+      LOCAL_IP: ${LOCAL_IP:-42.116.254.41}
       SIP_DOMAIN_KEEPALIVE: ${SIP_DOMAIN_KEEPALIVE:-proxy@pks}
       NOT_PROBING: ${NOT_PROBING}
     depends_on:
       - pks-redis
       - pks-rtp
+      - pks-mysql
     #ports:
     #  - "5060:5060/udp"
     #  - "5070:5070/udp"
@@ -57,7 +61,10 @@ services:
   pks-rtp:
     container_name: pks-rtp
     hostname: rtp.pks.local
-    image: mwolff44w/pks-rtpengine:v1.0.1
+    image: fgst/pks-rtpengine:v1.0.1
+    build:
+      context: .
+      dockerfile: $HOME/pyfreebilling/plugins/pks-rtpengine/Dockerfile
     restart: unless-stopped
     privileged: true
     expose:
@@ -77,6 +84,23 @@ services:
       LOG_LEVEL: ${LOG_LEVEL:-6}
     network_mode: host
 
+  pks-mysql:
+    container_name: pks-mysql
+    hostname: mysql.pks.local
+    image: mysql:8.0-debian
+    cap_add:
+      - SYS_NICE
+    restart: unless-stopped
+    volumes:
+      - pks-mysql-data:/var/lib/mysql
+      - ./db/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    expose:
+      - "3306"
+    environment: 
+      MYSQL_ROOT_PASSWORD: mypass
+      MYSQL_DATABASE: pks
+    network_mode: host
+
 networks:
   main:
 
@@ -84,12 +108,18 @@ volumes:
   pks-redis-data:
     driver: local
     driver_opts:
-      type: 'none'
-      o: 'bind'
-      device: '/srv/pks/redis'
+      type: none
+      o: bind
+      device: $HOME/srv/pks/redis
   pks-db-data:
     driver: local
     driver_opts:
-      type: 'none'
-      o: 'bind'
-      device: '/srv/pks/db'
+      type: none
+      o: bind
+      device: $HOME/srv/pks/db
+  pks-mysql-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: $HOME/srv/pks/mysql

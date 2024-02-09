@@ -18,7 +18,7 @@ confirm:
 # DEVELOPMENT
 # ==================================================================================== #
 
-DOCKER_COMPOSE := docker compose -f docker-compose.yml --env-file /srv/.env
+DOCKER_COMPOSE := docker compose -f docker-compose.yml --env-file /srv/pks/.env
 
 ## check/proxy: check the kamailio file
 .PHONY: check/proxy
@@ -33,6 +33,12 @@ build/proxy-mysql:
 	docker build -f Dockerfile.mysql -t pks-proxy-mysql .
 	docker run --name pks-proxy-mysql pks-proxy-mysql
 	docker rm pks-proxy-mysql
+
+
+## build/rtp-engine: build media proxy rtpengine 
+.PHONE: build/rtp-engine
+build/rtp-engine:
+	sh -c 'cd ${PWD}/../../plugins/pks-rtpengine ; make build . '
 
 ## check/removecontainer: remove the remaining container used for checking the kamailio file
 .PHONY: check/removecontainer

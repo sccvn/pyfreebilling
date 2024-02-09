@@ -10,10 +10,10 @@
 export PATH+=':/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
 
 # Variables
-VERSION="4.0.0"
-readonly PKS_GIT_URL="https://raw.githubusercontent.com/mwolff44/pyfreebilling"
+VERSION="dev"
+readonly PKS_GIT_URL="https://raw.githubusercontent.com/sccvn/pyfreebilling"
 readonly DATA_DIR="/srv"
-ENV_FILE="/srv/pks/.env"
+ENV_FILE="/srv/.env"
 DC_FILE="/srv/pks/docker-compose.yml"
 DOCKER_COMPOSE=(docker compose -f "${DC_FILE}" --env-file "${ENV_FILE}")
 
@@ -411,7 +411,7 @@ installFunc(){
 }
 
 checkUpdateFunc(){
-  lastRelease="$(curl --silent "https://api.github.com/repos/mwolff44/pyfreeBilling/releases/latest" | grep -Po '"tag_name": "\K.*?(?=")'| cut -b 2-7)"
+  lastRelease="$(curl --silent "https://api.github.com/repos/sccvn/pyfreeBilling/releases/latest" | grep -Po '"tag_name": "\K.*?(?=")'| cut -b 2-7)"
   if [ "${VERSION}" == "${lastRelease}" ]; then
     echo -e "   ${TICK} You run the latest PKS version.\n"
   else
