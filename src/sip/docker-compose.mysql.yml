@@ -13,7 +13,11 @@ services:
   pks-mysql:
     container_name: pks-mysql
     hostname: mysql.pks.local
+<<<<<<< HEAD
     image: mysql:8.0-debian
+=======
+    image: mysql:7.0
+>>>>>>> c1b746d... update dev with new build rtpengine from submodule in plugins
     cap_add:
       - SYS_NICE
     restart: unless-stopped

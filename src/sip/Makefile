@@ -34,6 +34,12 @@ build/proxy-mysql:
 	docker run --name pks-proxy-mysql pks-proxy-mysql
 	docker rm pks-proxy-mysql
 
+
+## build/rtp-engine: build media proxy rtpengine 
+.PHONE: build/rtp-engine
+build/rtp-engine:
+	sh -c 'cd ${PWD}/../../plugins/pks-rtpengine ; make build . '
+
 ## check/removecontainer: remove the remaining container used for checking the kamailio file
 .PHONY: check/removecontainer
 check/removecontainer:
