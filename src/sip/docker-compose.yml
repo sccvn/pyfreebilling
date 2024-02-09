@@ -84,23 +84,6 @@ services:
       LOG_LEVEL: ${LOG_LEVEL:-6}
     network_mode: host
 
-  # pks-mysql:
-  #   container_name: pks-mysql
-  #   hostname: mysql.pks.local
-  #   image: mysql:8.0-debian
-  #   cap_add:
-  #     - SYS_NICE
-  #   restart: unless-stopped
-  #   volumes:
-  #     - pks-mysql-data:/var/lib/mysql
-  #     - ./db/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
-  #   expose:
-  #     - "3306"
-  #   environment: 
-  #     MYSQL_ROOT_PASSWORD: mypass
-  #     MYSQL_DATABASE: pks
-  #   network_mode: host
-
 networks:
   main:
 
