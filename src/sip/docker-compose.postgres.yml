@@ -1,16 +1,17 @@
-  pks-sip:
-    depends_on:
-      - pks-redis
-      - pks-rtp
-      - pks-fs-1
-      - pks_postgres
-    environment:
-      - DB_URL: postgres://postgres:mypass@pks-postgres/pks
+services:  
+  # pks-sip:
+  #   depends_on:
+  #     - pks-redis
+  #     - pks-rtp
+  #     - pks-fs-1
+  #     - pks_postgres
+  #   environment:
+  #     - DB_URL: postgres://postgres:mypass@pks-postgres/pks
   
-  pks-mysql:
+  pks-pgsql:
     container_name: pks-postgres
     hostname: postgres.pks.local
-    image: image: postgres
+    image: postgres
     restart: unless-stopped
     volumes:
       - pks-pgsql-data:/var/lib/postgresql/data
@@ -22,6 +23,3 @@
       main:
         aliases:
           - pks-postgres
-
-volumes:
-  pks-pgsql-data:
