@@ -1,5 +1,8 @@
 version: "3.8"
-
+include:
+  - path:
+      - docker-compose.mysql.yml
+      - docker-compose.postgres.yml
 services:
   pks-sip:
     container_name: pks-sip
@@ -62,9 +65,6 @@ services:
     container_name: pks-rtp
     hostname: rtp.pks.local
     image: fgst/pks-rtpengine:v1.0.1
-    build:
-      context: .
-      dockerfile: $HOME/pyfreebilling/plugins/pks-rtpengine/Dockerfile
     restart: unless-stopped
     privileged: true
     expose:
@@ -84,22 +84,22 @@ services:
       LOG_LEVEL: ${LOG_LEVEL:-6}
     network_mode: host
 
-  pks-mysql:
-    container_name: pks-mysql
-    hostname: mysql.pks.local
-    image: mysql:8.0-debian
-    cap_add:
-      - SYS_NICE
-    restart: unless-stopped
-    volumes:
-      - pks-mysql-data:/var/lib/mysql
-      - ./db/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
-    expose:
-      - "3306"
-    environment: 
-      MYSQL_ROOT_PASSWORD: mypass
-      MYSQL_DATABASE: pks
-    network_mode: host
+  # pks-mysql:
+  #   container_name: pks-mysql
+  #   hostname: mysql.pks.local
+  #   image: mysql:8.0-debian
+  #   cap_add:
+  #     - SYS_NICE
+  #   restart: unless-stopped
+  #   volumes:
+  #     - pks-mysql-data:/var/lib/mysql
+  #     - ./db/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+  #   expose:
+  #     - "3306"
+  #   environment: 
+  #     MYSQL_ROOT_PASSWORD: mypass
+  #     MYSQL_DATABASE: pks
+  #   network_mode: host
 
 networks:
   main:
@@ -123,3 +123,9 @@ volumes:
       type: none
       o: bind
       device: $HOME/srv/pks/mysql
+  pks-pgsql-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: $HOME/srv/pks/pgsql
