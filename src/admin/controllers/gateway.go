@@ -23,9 +23,9 @@ import (
 //	@Description	Responds with the list of gateways as JSON.
 //	@Tags			gateways
 //	@Produce		json
-//	@Param			page		query		int		false	"int valid"		minimum(1)	maximum(10000000) default(1)
-//	@Param			page_size	query		int		false	"int valid"		minimum(5)	maximum(100) default(5)
-//	@Param			sort		query		string	false	"string enums"	Enums(id, name, ip_address, -id, -name, -ip_address) default(id)
+//	@Param			page		query		int		false	"int valid"		minimum(1)												maximum(10000000)	default(1)
+//	@Param			page_size	query		int		false	"int valid"		minimum(5)												maximum(100)		default(5)
+//	@Param			sort		query		string	false	"string enums"	Enums(id, name, ip_address, -id, -name, -ip_address)	default(id)
 //	@Success		200			{object}	utils.PaginatedResponseHTTP{data=models.Gateways}
 //	@Error			400 {object} utils.ResponseErrorHTTP{}
 //	@Error			404 {object} utils.ResponseErrorHTTP{}

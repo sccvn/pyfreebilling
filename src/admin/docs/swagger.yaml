@@ -51,6 +51,23 @@ definitions:
     - port
     - protocol
     type: object
+  models.Route:
+    properties:
+      created_at:
+        type: string
+      did:
+        type: string
+      gateways:
+        items:
+          $ref: '#/definitions/models.Gateway'
+        type: array
+      id:
+        type: integer
+      updated_at:
+        type: string
+    required:
+    - did
+    type: object
   utils.PaginatedResponseHTTP:
     properties:
       data: {}
@@ -79,6 +96,9 @@ definitions:
       message:
         type: string
     type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
 host: localhost:3000
 info:
   contact:
@@ -261,6 +281,86 @@ paths:
       summary: Show the status of server.
       tags:
       - root
+  /routes:
+    get:
+      description: Responds with the list of routes as JSON.
+      parameters:
+      - default: 1
+        description: int valid
+        in: query
+        maximum: 10000000
+        minimum: 1
+        name: page
+        type: integer
+      - default: 5
+        description: int valid
+        in: query
+        maximum: 100
+        minimum: 5
+        name: page_size
+        type: integer
+      - default: id
+        description: string enums
+        enum:
+        - id
+        - name
+        - ip_address
+        - -id
+        - -name
+        - -ip_address
+        in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.PaginatedResponseHTTP'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.Route'
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.ResponseErrorHTTP'
+      summary: Get a paginated list of routes
+      tags:
+      - routes
+    post:
+      consumes:
+      - application/json
+      description: Create a new route JSON and stors in DB. Return saved JSON
+      parameters:
+      - description: Route object
+        in: body
+        name: route
+        required: true
+        schema:
+          $ref: '#/definitions/models.Route'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Route'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.ResponseErrorHTTP'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.ResponseErrorHTTP'
+      summary: Create a new route
+      tags:
+      - routes
 securityDefinitions:
   BasicAuth:
     type: basic
