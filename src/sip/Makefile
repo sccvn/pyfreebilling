@@ -55,6 +55,11 @@ build/proxy:
 run/proxy:
 	@$(DOCKER_COMPOSE) up -d
 
+## run/sip_proxy: run the sip proxy only
+.PHONY: run/sipproxy
+run/sipproxy:
+	@$(DOCKER_COMPOSE) up -d pks-sip
+
 ## stop/proxy: stop the proxy application
 .PHONY: stop/proxy
 stop/proxy:

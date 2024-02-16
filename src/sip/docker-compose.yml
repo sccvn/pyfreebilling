@@ -13,7 +13,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      #- ./kamailio.cfg:/etc/kamailio/kamailio.cfg
+      - pks-sip-cfg:/etc/kamailio:rw
       # - ./tests/db-test:/etc/kamailio/db:ro
       - pks-db-data:/etc/kamailio/db:ro
     logging:
@@ -23,7 +23,7 @@ services:
         max-file: "10"
     environment:
       ENVIRONMENT: ${ENVIRONMENT:-dev}
-      LISTEN_ADVERTISE: ${LISTEN_ADVERTISE:-42.116.255.41}
+      LISTEN_ADVERTISE: ${LISTEN_ADVERTISE:-apac.belltouch.xyz}
       KAMAILIO_LOG_LEVEL: ${KAMAILIO_LOG_LEVEL:-info}
       RTPENGINE_URL: ${RTPENGINE_URL:-rtp.pks.local}
       REDIS_URL: ${REDIS_URL:-redis.pks.local}
@@ -88,6 +88,12 @@ networks:
   main:
 
 volumes:
+  pks-sip-cfg:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: $HOME/srv/pks/kamailio
   pks-redis-data:
     driver: local
     driver_opts:
