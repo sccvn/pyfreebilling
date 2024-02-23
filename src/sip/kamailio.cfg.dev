@@ -649,11 +649,12 @@ route[TENANTAUTH] {
 	}
 	$var(tenant) = $sht(tenantmap=>$var(tenantheader));
 
-	xlog("L_INFO", "Call from IP auth peer with tenant $var(tenant) - GW_ID : $avp(i:707) - Source IP ($si:$sp)\n");
+	xlog("L_INFO", "Registration/Call from IP auth peer with tenant $var(tenant) - GW_ID : $avp(i:707) - Source IP ($si:$sp)\n");
 
 	#remove_hf("X-Tenant");
 	xinfo("remove SIP X- headers\n");
 	remove_hf_re("X-");
+	route(DISPATCH);
 	return;
 }
 
@@ -732,56 +733,89 @@ route[DISPATCH] {
 	xinfo("route dispatch\n");
 	# select the GW list from $rU
 	if(isflagset(FLAG_FROM_CUST)) {
-		$fsn = "public";
-		# first, check if the R-URI matches a rule in internal topic (3)
-		# second, if no internal match, then check if the R_URI matches a rule in external topic (2)
-		$var(rule3) = dp_match("3", "$rU");
-		switch ($var(rule3)) {
-			case -2:
-			  xinfo("INFO | No internal routing rule found for GW (IP:$si:$sp) associated with '$rU'\n");
-				$var(rule2) = dp_match("2", "$rU");
-				switch ($var(rule2)) {
+		# first check is REGISTRATION or CALL
+		if (is_method("REGISTER")) {
+			$fsn = "public";
+			$var(rule3) = dp_match("3", "$var(tenant)");
+			switch ($var(rule3)) {
+				case -2:
+					xinfo("INFO | No internal register routing rule found for GW (IP:$si:$sp) associated with '$var(tenant)'\n");
+					$var(rule2) = dp_match("2", "$var(tenant)");
+					switch ($var(rule2)) {
+						case -2:
+							xwarn("INFO | No external register routing rule found for GW (IP:$si:$sp) associated with '$var(tenant)'\n");
+							$var(rule2) = dp_match("2", "$var(tenant)");
+							return;
+						case -1:
+							xerr("ALERT | Error finding external register routing rule for GW (IP:$si:$sp) associated with '$var(tenant)'\n");
+							exit;
+						case 1:
+							xinfo("INFO | The external register routing rule for GW (IP:$si:$sp) associated with '$var(tenant)' are '$avp(s:dest)'\n");
+							return;
+					}
+					return;
+				case -1:
+					xerr("ALERT | Error finding internal register routing rule for GW (IP:$si:$sp) associated with '$var(tenant)'\n");
+					exit;
+				case 1:
+					xinfo("INFO | The internal register routing rule for GW (IP:$si:$sp) associated with '$var(tenant)' are '$avp(s:dest)'\n");
+					if($avp(s:dest) == "SANDBOX") {
+						setflag(FLAG_SANDBOX_DP);
+					}
+					break;
+			}
+		} else {
+				$fsn = "public";
+				# first, check if the R-URI matches a rule in internal topic (3)
+				# second, if no internal match, then check if the R_URI matches a rule in external topic (2)
+				$var(rule3) = dp_match("3", "$rU");
+				switch ($var(rule3)) {
 					case -2:
-						xwarn("INFO | No external routing rule found for GW (IP:$si:$sp) associated with '$rU'\n");
+						xinfo("INFO | No internal routing rule found for GW (IP:$si:$sp) associated with '$rU'\n");
 						$var(rule2) = dp_match("2", "$rU");
+						switch ($var(rule2)) {
+							case -2:
+								xwarn("INFO | No external routing rule found for GW (IP:$si:$sp) associated with '$rU'\n");
+								$var(rule2) = dp_match("2", "$rU");
+								return;
+							case -1:
+								xerr("ALERT | Error finding external routing rule for GW (IP:$si:$sp) associated with '$rU'\n");
+								exit;
+							case 1:
+								xinfo("INFO | The external routing rule for GW (IP:$si:$sp) associated with '$rU' are '$avp(s:dest)'\n");
+								return;
+						}
 						return;
 					case -1:
-						xerr("ALERT | Error finding external routing rule for GW (IP:$si:$sp) associated with '$rU'\n");
+						xerr("ALERT | Error finding internal routing rule for GW (IP:$si:$sp) associated with '$rU'\n");
 						exit;
 					case 1:
-						xinfo("INFO | The external routing rule for GW (IP:$si:$sp) associated with '$rU' are '$avp(s:dest)'\n");
-						return;
-				}
-		    return;
-			case -1:
-			  xerr("ALERT | Error finding internal routing rule for GW (IP:$si:$sp) associated with '$rU'\n");
+						xinfo("INFO | The internal routing rule for GW (IP:$si:$sp) associated with '$rU' are '$avp(s:dest)'\n");
+						if($avp(s:dest) == "SANDBOX") {
+							setflag(FLAG_SANDBOX_DP);
+						}
+						break;
+				} 
+			}
+			} else if(isflagset(FLAG_FROM_PROV)) {
+					$fsn = "private";
+					$var(rule1) = dp_match("1", "$rU");
+					switch ($var(rule1)) {
+						case -2:
+							xwarn("INFO | No DID routing rule found for GW (IP:$si:$sp) associated with '$rU'\n");
+							return;
+						case -1:
+							xerr("ALERT | Error finding DID routing rule for GW (IP:$si:$sp) associated with '$rU'\n");
+							exit;
+						case 1:
+							xinfo("INFO | The DID routing rule for GW (IP:$si:$sp) associated with '$rU' are '$avp(s:dest)'\n");
+							break;
+			}
+			} else {
+				xwarn("WARN | No routing rule found for GW (IP:$si:$sp)\n");
+				send_reply("404", "No destination");
 				exit;
-			case 1:
-        xinfo("INFO | The internal routing rule for GW (IP:$si:$sp) associated with '$rU' are '$avp(s:dest)'\n");
-				if($avp(s:dest) == "SANDBOX") {
-					setflag(FLAG_SANDBOX_DP);
-				}
-				break;
-		} 
-    } else if(isflagset(FLAG_FROM_PROV)) {
-        $fsn = "private";
-				$var(rule1) = dp_match("1", "$rU");
-				switch ($var(rule1)) {
-					case -2:
-			    	xwarn("INFO | No DID routing rule found for GW (IP:$si:$sp) associated with '$rU'\n");
-		        return;
-					case -1:
-			    	xerr("ALERT | Error finding DID routing rule for GW (IP:$si:$sp) associated with '$rU'\n");
-						exit;
-					case 1:
-            xinfo("INFO | The DID routing rule for GW (IP:$si:$sp) associated with '$rU' are '$avp(s:dest)'\n");
-		        break;
-		}
-	} else {
-		xwarn("WARN | No routing rule found for GW (IP:$si:$sp)\n");
-		send_reply("404", "No destination");
-		exit;
-	}
+			}
 
 	if ($avp(s:dest)=="") {
 		xwarn("WARN | No routing rule found for GW (IP:$si:$sp)\n");
