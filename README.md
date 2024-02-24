@@ -63,19 +63,11 @@ working Basic Operating System (Linux). P-KISS-SBC works in containers, it can b
 
 The project uses Kamailio, RTP Engine, Redis and a Database (by default, SQLITE but also support POSTGRESQL, MARIADB, MYSQL and DBTEXT).
 
-## Contact Information
 
-Name: *Mathias WOLFF*
-
-Email: *website contact form*
-
-Website: [https://www.pyfreebilling.com](https://www.pyfreebilling.com)
 
 ## Support
 
 To get free support, use github issue tab.
-
-If you need paid support, specific features or consulting services, you will find support services prices on PyFreeBilling website : [https://www.pyfreebilling.com/](https://www.pyfreebilling.com/)
 
 ## Contributing
 
