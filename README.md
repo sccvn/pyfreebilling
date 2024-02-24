@@ -90,7 +90,8 @@ Separate proposed changes and PRs into small, distinct patches by type so that t
 
 If you want to support my developments you are welcome to offer me a cup of coffee :)
 
-[![Paypal donation](static/donate_button_red.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=FANG9JC63Q7DY&lc=FR&item_name=PyFreeBilling&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
+[![Paypal donation](static/donate_button_red.jpg)](./subscription.js)
+
 
 ## Stats
 
