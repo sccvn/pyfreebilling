@@ -82,8 +82,6 @@ Separate proposed changes and PRs into small, distinct patches by type so that t
 
 If you want to support my developments you are welcome to offer me a cup of coffee :)
 
-[![Paypal donation](static/donate_button_red.jpg)](./subscription.html)
-
 
 ## Stats
 
