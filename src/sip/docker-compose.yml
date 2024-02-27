@@ -7,7 +7,7 @@ services:
   pks-sip:
     container_name: pks-sip
     hostname: sip.pks.local
-    image: fgst/pks-sipproxy:4.0.0beta01
+    image: fgst/pks-sipproxy:4.0.0beta02
     restart: unless-stopped
     build:
       context: .
@@ -33,9 +33,10 @@ services:
       DB_MYSQL: ${DB_MYSQL:-127.0.0.1}
       DB_SQLITE: ${DB_SQLITE}
       DB_PGSQL: ${DB_PGSQL}
-      LOCAL_IP: ${LOCAL_IP:-42.116.254.41}
+      LOCAL_IP: ${LOCAL_IP:-42.116.255.41}
       SIP_DOMAIN_KEEPALIVE: ${SIP_DOMAIN_KEEPALIVE:-proxy@pks}
       NOT_PROBING: ${NOT_PROBING}
+      NOT_SANDBOX: ${NOT_SANDBOX:-SANDBOX}
     depends_on:
       - pks-redis
       - pks-rtp

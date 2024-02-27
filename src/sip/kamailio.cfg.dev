@@ -761,9 +761,11 @@ route[DISPATCH] {
 					exit;
 				case 1:
 					xinfo("INFO | The internal register routing rule for GW (IP:$si:$sp) associated with '$var(tenant)' are '$avp(s:dest)'\n");
+					#!ifdef WITH_SANDBOX
 					if($avp(s:dest) == "SANDBOX") {
 						setflag(FLAG_SANDBOX_DP);
 					}
+					#!endif
 					break;
 			}
 		} else {
@@ -793,9 +795,11 @@ route[DISPATCH] {
 						exit;
 					case 1:
 						xinfo("INFO | The internal routing rule for GW (IP:$si:$sp) associated with '$rU' are '$avp(s:dest)'\n");
+						#!ifdef WITH_SANDBOX
 						if($avp(s:dest) == "SANDBOX") {
 							setflag(FLAG_SANDBOX_DP);
 						}
+						#!endif
 						break;
 				} 
 			}
@@ -844,6 +848,7 @@ route[DISPATCH] {
 	} 
    
 	# test if $avp(s:dest) is a valid 
+#!ifdef WITH_SANDBOX
 	if (isflagset(FLAG_SANDBOX_DP)) {
 		xinfo("INFO | The destination is a sandbox\n");
 		# round robin dispatching on gateways group '1'
@@ -871,6 +876,7 @@ route[DISPATCH] {
 		route(RELAY);
 		exit;
 	}
+#!endif
 
 	# round robin dispatching on gateways group '1'
 	if(!ds_select_domain("$avp(s:dest)", "4")) {

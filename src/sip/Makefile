@@ -46,14 +46,20 @@ check/removecontainer:
 	docker rm pks-proxy-test
 
 ## build/proxy: build the proxy application
+.PHONY: build/proxy/dev
+build/proxy/dev:
+	@$(DOCKER_COMPOSE) build
+
+## build/proxy: build the proxy application
 .PHONY: build/proxy
 build/proxy:
-	@$(DOCKER_COMPOSE) build
+	ENVIRONMENT:=prod @$(DOCKER_COMPOSE) build
+
 
 ## run/proxy: run the proxy application
 .PHONY: run/proxy
 run/proxy:
-	@$(DOCKER_COMPOSE) up -d
+	ENVIRONMENT:=prod @$(DOCKER_COMPOSE) up -d
 
 ## run/sipproxy: run the sip proxy only
 .PHONY: run/sipproxy
