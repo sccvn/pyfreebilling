@@ -41,6 +41,15 @@ docker/stop/postgres:
 docker/build/admin:
 	docker build -t pks-admin .
 
+## docker/run/admin : run the pks-admin container
+.PHONY: docker/run/admin
+docker/run/admin:
+	docker run --rm -d \
+		--name pks-admin \
+		-e DB_DSN=${DB_DSN} \
+		-p 3000:3000 \
+		pks-admin
+
 ## docker/stop/admin : stop the pks-admin container
 .PHONY: docker/stop/admin
 docker/stop/admin:

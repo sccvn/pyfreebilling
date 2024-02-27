@@ -5,16 +5,16 @@ site_name: P-KISS-SBC
 site_description: >-
   Simple, high performance, robust and reliable SIP Border Controller (SBC)
 site_url: https://www.pyfreebilling.com/
-site_author: Mathias WOLFF
+site_author: Kevin Nguyen
 
 # Repository
-repo_name: mwolff44/pyfreebilling
-repo_url: https://github.com/mwolff44/pyfreebilling
+repo_name: sccvn/pyfreebilling
+repo_url: https://github.com/sccvn/pyfreebilling
 edit_uri: ''
 
 # Copyright
 copyright: >
-  Copyright &copy; 2011 - 2024 Mathias WOLFF -- 
+  Copyright &copy; 2024 - 2024 Kevin Nguyen -- 
   <a href="#__consent">Change cookie settings</a>
 
 # Configuration
@@ -70,11 +70,11 @@ extra:
       lang: fr
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/mwolff44
+      link: https://github.com/sccvn
     - icon: fontawesome/brands/linkedin
-      link: https://www.linkedin.com/in/mathias-wolff-47a7941/
+      link: https://www.linkedin.com/in/
     - icon: fontawesome/brands/docker
-      link: https://hub.docker.com/r/mwolff44w/
+      link: https://hub.docker.com/r/sccvn
   consent:
     title: Cookie consent
     description: >- 
@@ -187,5 +187,5 @@ nav:
     - Reporting a bug: contributing/reporting-a-bug.md
     - Reporting a docs issue: contributing/reporting-a-docs-issue.md
     - Requesting a change: contributing/requesting-a-change.md
-    - Asking a question: https://github.com/mwolff44/pyfreebilling/discussions
+    - Asking a question: https://github.com/sccvn/pyfreebilling/discussions
   - Release Notes: changelog/index.md

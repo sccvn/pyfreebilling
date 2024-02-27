@@ -7,13 +7,13 @@ services:
   pks-sip:
     container_name: pks-sip
     hostname: sip.pks.local
-    image: fgst/pks-sipproxy:4.0.0beta01
+    image: fgst/pks-sipproxy:4.0.0beta02
     restart: unless-stopped
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
-      #- ./kamailio.cfg:/etc/kamailio/kamailio.cfg
+      - pks-sip-cfg:/etc/kamailio:rw
       # - ./tests/db-test:/etc/kamailio/db:ro
       - pks-db-data:/etc/kamailio/db:ro
     logging:
@@ -23,7 +23,7 @@ services:
         max-file: "10"
     environment:
       ENVIRONMENT: ${ENVIRONMENT:-dev}
-      LISTEN_ADVERTISE: ${LISTEN_ADVERTISE:-42.116.255.41}
+      LISTEN_ADVERTISE: ${LISTEN_ADVERTISE:-apac.belltouch.xyz}
       KAMAILIO_LOG_LEVEL: ${KAMAILIO_LOG_LEVEL:-info}
       RTPENGINE_URL: ${RTPENGINE_URL:-rtp.pks.local}
       REDIS_URL: ${REDIS_URL:-redis.pks.local}
@@ -33,9 +33,10 @@ services:
       DB_MYSQL: ${DB_MYSQL:-127.0.0.1}
       DB_SQLITE: ${DB_SQLITE}
       DB_PGSQL: ${DB_PGSQL}
-      LOCAL_IP: ${LOCAL_IP:-42.116.254.41}
+      LOCAL_IP: ${LOCAL_IP:-42.116.255.41}
       SIP_DOMAIN_KEEPALIVE: ${SIP_DOMAIN_KEEPALIVE:-proxy@pks}
       NOT_PROBING: ${NOT_PROBING}
+      NOT_SANDBOX: ${NOT_SANDBOX:-SANDBOX}
     depends_on:
       - pks-redis
       - pks-rtp
@@ -88,6 +89,12 @@ networks:
   main:
 
 volumes:
+  pks-sip-cfg:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: $HOME/srv/pks/kamailio
   pks-redis-data:
     driver: local
     driver_opts:

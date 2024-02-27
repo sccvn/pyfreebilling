@@ -37,20 +37,28 @@ P-Kiss-SBC is under AGPLv3 license. You can read it in COPYING file.
 There are some features supported. A few of them are:
 
 - IPBX/Customer add/modify/delete
-  - IP termination and SIP authentication (Multitenant system support)
-  - DID allocation and routing
+  - [v] IP termination and SIP authentication (Multitenant system support)
+  - [v] DID allocation and routing
+  - [-] DID Registar
 
 - Provider add/modify/delete
-  - Routing based on area code
-  - DID Routing
-  - Routing decision based on load balancing
-  - Limit max channels by each provider gateway (TBD)
+  - [-] Routing based on area code
+  - [-] DID Routing
+  - [-] Routing decision based on load balancing
+  - [-] Limit max channels by each provider gateway (TBD)
 
 - Security
-  - Blocking SIP scanner attemps
-  - Blocking fraudulent connection attempts
-  - SQL injection detection
-  - SIP header validation
+  - [-] Blocking SIP scanner attemps
+  - [-] Blocking fraudulent connection attempts
+  - [-] SQL injection detection
+  - [-] SIP header validation
+  - [-] SIP/TLS - SRTP
+  - [-] Call Recording
+
+- Session Monitoring & Logging
+  - [-] Call Detail Records (CDRs)
+  - [-] Session Statistics
+  - [-] Alert & Notification
 
 - Design for simplicity, reliability and scalability
 
@@ -63,19 +71,11 @@ working Basic Operating System (Linux). P-KISS-SBC works in containers, it can b
 
 The project uses Kamailio, RTP Engine, Redis and a Database (by default, SQLITE but also support POSTGRESQL, MARIADB, MYSQL and DBTEXT).
 
-## Contact Information
 
-Name: *Mathias WOLFF*
-
-Email: *website contact form*
-
-Website: [https://www.pyfreebilling.com](https://www.pyfreebilling.com)
 
 ## Support
 
 To get free support, use github issue tab.
-
-If you need paid support, specific features or consulting services, you will find support services prices on PyFreeBilling website : [https://www.pyfreebilling.com/](https://www.pyfreebilling.com/)
 
 ## Contributing
 
@@ -90,7 +90,6 @@ Separate proposed changes and PRs into small, distinct patches by type so that t
 
 If you want to support my developments you are welcome to offer me a cup of coffee :)
 
-[![Paypal donation](static/donate_button_red.jpg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=FANG9JC63Q7DY&lc=FR&item_name=PyFreeBilling&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
 
 ## Stats
 

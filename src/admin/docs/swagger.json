@@ -284,6 +284,126 @@
                     }
                 }
             }
+        },
+        "/routes": {
+            "get": {
+                "description": "Responds with the list of routes as JSON.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "routes"
+                ],
+                "summary": "Get a paginated list of routes",
+                "parameters": [
+                    {
+                        "maximum": 10000000,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "int valid",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 5,
+                        "type": "integer",
+                        "default": 5,
+                        "description": "int valid",
+                        "name": "page_size",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "id",
+                            "name",
+                            "ip_address",
+                            "-id",
+                            "-name",
+                            "-ip_address"
+                        ],
+                        "type": "string",
+                        "default": "id",
+                        "description": "string enums",
+                        "name": "sort",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.PaginatedResponseHTTP"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.Route"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseErrorHTTP"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new route JSON and stors in DB. Return saved JSON",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "routes"
+                ],
+                "summary": "Create a new route",
+                "parameters": [
+                    {
+                        "description": "Route object",
+                        "name": "route",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Route"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.Route"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseErrorHTTP"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseErrorHTTP"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -357,6 +477,32 @@
                 }
             }
         },
+        "models.Route": {
+            "type": "object",
+            "required": [
+                "did"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "did": {
+                    "type": "string"
+                },
+                "gateways": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Gateway"
+                    }
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
         "utils.PaginatedResponseHTTP": {
             "type": "object",
             "properties": {
@@ -403,5 +549,9 @@
         "BasicAuth": {
             "type": "basic"
         }
+    },
+    "externalDocs": {
+        "description": "OpenAPI",
+        "url": "https://swagger.io/resources/open-api/"
     }
 }

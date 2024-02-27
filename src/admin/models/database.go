@@ -21,7 +21,7 @@ func SetupDatabase(dbTarget string) {
 
 	// Migrate the schema
 	migrErr := db.AutoMigrate(
-		&Gateway{},
+		&Gateway{}, &Route{},
 	)
 	if migrErr != nil {
 		log.Fatalf("Error migrating database: %s", err)

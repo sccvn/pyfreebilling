@@ -1,6 +1,6 @@
 FROM debian:bullseye
 
-MAINTAINER Mathias WOLFF <mathias@celea.org>
+MAINTAINER Mathias WOLFF <mathias@celea.org>, Kevin Nguyen <kevinnguyen.asian.vie@gmail.com>
 
 ENV REFRESHED_AT 2023-04-29
 ENV VERSION 1.0.1
@@ -34,7 +34,7 @@ kamailio-mysql-modules
 # clean
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-COPY ./kamailio.cfg /etc/kamailio/kamailio.cfg
+COPY ./kamailio.cfg.dev /etc/kamailio/kamailio.cfg
 COPY ./bootstrap.sh /etc/kamailio/bootstrap.sh
 RUN chmod a+x /etc/kamailio/bootstrap.sh
 

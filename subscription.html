@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Donation</title>
+  </head>
+  <body>
+    <div id="paypal-button-container-P-2U171993W90361612MXM5KEA"></div>
+    <script src="https://www.paypal.com/sdk/js?client-id=ASBZowJOyUPt12Wx4JBOSThKoS41onrua4QaclpgOL08kiKguezLc6GIwE5Zu3g_DP7CjYMK5gN0UtQL&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+<script>
+  paypal.Buttons({
+      style: {
+          shape: 'pill',
+          color: 'blue',
+          layout: 'horizontal',
+          label: 'subscribe'
+      },
+      createSubscription: function(data, actions) {
+        return actions.subscription.create({
+          /* Creates the subscription */
+          plan_id: 'P-2U171993W90361612MXM5KEA'
+        });
+      },
+      onApprove: function(data, actions) {
+        alert(data.subscriptionID); // You can add optional success message for the subscriber here
+      }
+  }).render('#paypal-button-container-P-2U171993W90361612MXM5KEA'); // Renders the PayPal button
+</script>
+  </body>
+</html>
+

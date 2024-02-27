@@ -129,6 +129,11 @@ if [ -n "$NOT_PROBING" ]; then
   echo "#!define PROBING_MODE 3" >> /etc/kamailio/kamailio-local.cfg
 fi
 
+if [ -n "$NOT_SANDBOX" ]; then
+  echo -n 'NOT_SANDBOX is: '; echo "TRUE"
+  echo "#!define WITH_SANDBOX" >> /etc/kamailio/kamailio-local.cfg
+fi
+
 # Test the syntax.
 echo 'kamailio-local.cfg : '
 cat /etc/kamailio/kamailio-local.cfg

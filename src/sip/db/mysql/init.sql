@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `version` (
 );
 
 INSERT INTO version (table_name, table_version) values ('version','1');
-
+/* utils/kamctl/mysql/dialplan-create.sql */
 CREATE TABLE IF NOT EXISTS `dialplan` (
     `id` INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
     `dpid` INT(11) NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `dialplan` (
 );
 
 INSERT INTO version (table_name, table_version) values ('dialplan','2');
-
+/* utils/kamctl/mysql/dispatcher-create.sql */
 CREATE TABLE IF NOT EXISTS `dispatcher` (
     `id` INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
     `setid` INT DEFAULT 0 NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `dispatcher` (
 );
 
 INSERT INTO version (table_name, table_version) values ('dispatcher','4');
-
+/* utils/kamctl/mysql/domain-create.sql */
 CREATE TABLE IF NOT EXISTS `domain` (
     `id` INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
     `domain` VARCHAR(64) NOT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `domain_attrs` (
 CREATE INDEX domain_attrs_idx ON domain_attrs (`did`, `name`);
 
 INSERT INTO version (table_name, table_version) values ('domain_attrs','1');
-
+/* utils/kamctl/mysql/htable-create.sql */
 CREATE TABLE IF NOT EXISTS `htable` (
     `id` INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
     `key_name` VARCHAR(64) DEFAULT '' NOT NULL,
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `tenant` (
 );
 
 INSERT INTO version (table_name, table_version) values ('tenant','1');
-
+/* utils/kamctl/mysql/permissions-create.sql */
 CREATE TABLE IF NOT EXISTS `trusted` (
     `id` INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
     `src_ip` VARCHAR(50) NOT NULL,
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `address` (
 );
 
 INSERT INTO version (table_name, table_version) values ('address','6');
-
+/* utils/kamctl/mysql/permissions-create.sql */
 CREATE TABLE IF NOT EXISTS `rtpengine` (
     `id` INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
     `setid` INT(10) UNSIGNED DEFAULT 0 NOT NULL,
