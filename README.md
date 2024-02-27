@@ -37,20 +37,28 @@ P-Kiss-SBC is under AGPLv3 license. You can read it in COPYING file.
 There are some features supported. A few of them are:
 
 - IPBX/Customer add/modify/delete
-  - IP termination and SIP authentication (Multitenant system support)
-  - DID allocation and routing
+  - [v] IP termination and SIP authentication (Multitenant system support)
+  - [v] DID allocation and routing
+  - [-] DID Registar
 
 - Provider add/modify/delete
-  - Routing based on area code
-  - DID Routing
-  - Routing decision based on load balancing
-  - Limit max channels by each provider gateway (TBD)
+  - [-] Routing based on area code
+  - [-] DID Routing
+  - [-] Routing decision based on load balancing
+  - [-] Limit max channels by each provider gateway (TBD)
 
 - Security
-  - Blocking SIP scanner attemps
-  - Blocking fraudulent connection attempts
-  - SQL injection detection
-  - SIP header validation
+  - [-] Blocking SIP scanner attemps
+  - [-] Blocking fraudulent connection attempts
+  - [-] SQL injection detection
+  - [-] SIP header validation
+  - [-] SIP/TLS - SRTP
+  - [-] Call Recording
+
+- Session Monitoring & Logging
+  - [-] Call Detail Records (CDRs)
+  - [-] Session Statistics
+  - [-] Alert & Notification
 
 - Design for simplicity, reliability and scalability
 
